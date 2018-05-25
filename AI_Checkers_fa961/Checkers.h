@@ -60,7 +60,7 @@ public:
             for (int j =0; j<width; j++) {
                 
                 if (j%2 == 0 && i%2 ==1 && i < 2){
-                    checkerBoard[i][j] = "[A]";
+                    checkerBoard[i][j] = "[A]";                     // AI pieces
                     pair<int,int> aiPiece = make_pair(i, j);
                     AiPieces.push_back(aiPiece);
                     
@@ -71,7 +71,7 @@ public:
                     AiPieces.push_back(aiPiece);
                 }
                 if (j%2 == 0 && i%2 ==1 && i > 3){
-                    checkerBoard[i][j] = "[P]";
+                    checkerBoard[i][j] = "[P]";                     // Player Pieces
                     pair<int,int> playerPiece = make_pair(i, j);
                     PlayerPieces.push_back(playerPiece);
                 }
@@ -84,7 +84,7 @@ public:
         }
     }
     
-    Checkers(Checkers& G){
+    Checkers(Checkers& G){                                              // copy constructor
         vector<vector<string> > Board(6, vector<string>(6, "[E]"));
         checkerBoard = Board;
         for (int i = 0; i < height; i++) {
@@ -92,7 +92,7 @@ public:
                 checkerBoard[i][j] = G.checkerBoard[i][j];
             }
         }
-        //checkerBoard = G.checkerBoard;
+        
         
         updateAiLocations();
         updatePlayerLocations();
@@ -100,11 +100,11 @@ public:
         
     }
     
-    void updateScore(int newScore){
+    void updateScore(int newScore){ // changes score
         this->score = newScore;
     }
     
-    int getScore(){
+    int getScore(){                 // returns score
         return this->score;
     }
     
@@ -128,13 +128,11 @@ public:
                 //now need to check what currently occupies this space
                 //if dark --> that means empty and possible move
                 //if light --> major error, light squares shouldnt even be a possible move
-                // if AI Piece --> add to list of possible jumps ***** JUMP MOVES MUST BE TAKEN ***
-                // so maybe originally display a list of possible jump moves first
-                // if possible jump moves are empty, then display rest of regular possible moves
+                // if Player Piece --> add to list of possible jumps ***** JUMP MOVES MUST BE TAKEN ***
                 
                 string whatsinLD = checkerBoard[moveLD.first][moveLD.second];
-                //cout << whatsinLD <<endl;
-                if(whatsinLD == "[D]"){
+                
+                if(whatsinLD == "[D]"){             // Empty Dark square so we can move there
                     moves.push_back(moveLD);
                 }
                 
@@ -148,8 +146,8 @@ public:
         if ((0 <= moveRD.first) && (0 <= moveRD.second)) {      // bounds checking
             if (moveRD.first < 6 && moveRD.second < 6 ) {
                 string whatsinRD = checkerBoard[moveRD.first][moveRD.second];
-                //cout << whatsinRD <<endl;
-                if(whatsinRD == "[D]"){
+                
+                if(whatsinRD == "[D]"){                         // Empty Dark square so we can move there
                     moves.push_back(moveRD);
                 }
                 
@@ -182,11 +180,10 @@ public:
                 //if dark --> that means empty and possible move
                 //if light --> major error, light squares shouldnt even be a possible move
                 // if AI Piece --> add to list of possible jumps ***** JUMP MOVES MUST BE TAKEN ***
-                // so maybe originally display a list of possible jump moves first
-                // if possible jump moves are empty, then display rest of regular possible moves
+
                 
                 string whatsinLD = checkerBoard[moveLD.first][moveLD.second];
-                //cout << whatsinLD <<endl;
+                
                 if(whatsinLD == "[D]"){
                     moves.push_back(moveLD);
                 }
@@ -201,7 +198,7 @@ public:
         if ((0 <= moveRD.first) && (0 <= moveRD.second)) {      // bounds checking
             if (moveRD.first < 6 && moveRD.second < 6 ) {
                 string whatsinRD = checkerBoard[moveRD.first][moveRD.second];
-                //cout << whatsinRD <<endl;
+                
                 if(whatsinRD == "[D]"){
                     moves.push_back(moveRD);
                 }
@@ -214,7 +211,7 @@ public:
         return moves;
     }
     
-    map<pair<int, int>, vector<pair<int, int> > > getAllMoves(bool AiTurn){    //
+    map<pair<int, int>, vector<pair<int, int> > > getAllMoves(bool AiTurn){   // returns all possible moves for each piece
         map<pair<int, int>, vector<pair<int, int> > > moves;
         if (!AiTurn) {
             // get moves for Player
@@ -230,7 +227,7 @@ public:
         return moves;
     }
     
-    map<pair<int, int>, vector<pair<int, int> > > getAllJumps(bool AiTurn){    //
+    map<pair<int, int>, vector<pair<int, int> > > getAllJumps(bool AiTurn){    // returns all possible jumps for each piece
         map<pair<int, int>, vector<pair<int, int> > > moves;
         if (!AiTurn) {
             // get moves for Player
@@ -272,8 +269,7 @@ public:
                 
                 //now need to check what currently occupies this space
                 // if AI Piece --> add to list of possible jumps ***** JUMP MOVES MUST BE TAKEN ***
-                // so maybe originally display a list of possible jump moves first
-                // if possible jump moves are empty, then display rest of regular possible moves
+               
                 
                 string whatsinLD = checkerBoard[moveLD.first][moveLD.second];
                 
@@ -344,12 +340,11 @@ public:
             if (moveLD.first < 6 && moveLD.second < 6) {
                 
                 //now need to check what currently occupies this space
-                // if AI Piece --> add to list of possible jumps ***** JUMP MOVES MUST BE TAKEN ***
-                // so maybe originally display a list of possible jump moves first
-                // if possible jump moves are empty, then display rest of regular possible moves
+                // if Player Piece --> add to list of possible jumps ***** JUMP MOVES MUST BE TAKEN ***
+
                 
                 string whatsinLD = checkerBoard[moveLD.first][moveLD.second];
-                //cout << whatsinLD <<endl;
+           
                 if(whatsinLD == "[P]"){
                     if (0 <= (moveLD.first+1) && (0 <= (moveLD.second-1))) { // checking space of where we are landing after jump
                         if ((moveLD.first+1) < 6 && (moveLD.second-1) < 6) {
@@ -370,7 +365,7 @@ public:
         if ((0 <= moveRD.first) && (0 <= moveRD.second)) {      // bounds checking
             if (moveRD.first < 6 && moveRD.second < 6 ) {
                 string whatsinRD = checkerBoard[moveRD.first][moveRD.second];
-                //cout << whatsinRD <<endl;
+            
                 if(whatsinRD == "[P]"){
                     if (0 <= (moveRD.first+1) && (0 <= moveRD.second+1)) {
                         if ((moveRD.first+1) < 6 && (moveRD.second+1) < 6) {
@@ -462,8 +457,7 @@ public:
         }
         // now go through aiPieces vector and remove piece that was eaten
         // adjust Aiplayer's data members
-        // pass aiPiece to some function of AIPlayer that will remove the piece
-        //but that means Checkers class will have to know what player that is
+       
         
         int indexofAipiecetoRemove = 0;
         for (; indexofAipiecetoRemove < AiPieces.size(); indexofAipiecetoRemove++) {
@@ -558,7 +552,7 @@ public:
         vector<pair<int, int> > newLocations;
         for (int i = 0; i<height; i++) {
             for (int j = 0; j < width; j++) {
-                if (checkerBoard[i][j] == "[A]") {  // found player piece
+                if (checkerBoard[i][j] == "[A]") {  // found Ai piece
                     pair<int, int> piece = make_pair(i, j);
                     newLocations.push_back(piece);
                 }
@@ -568,7 +562,7 @@ public:
     }
     
     void printPlayerLocations(){
-        //updatePlayerLocations();
+        
         cout<< "Player Locations: " << endl;
         for (int i = 0; i < PlayerPieces.size(); i++) {
             cout << i+1 << ". (" << PlayerPieces[i].first << ", "<< PlayerPieces[i].second << ") " << endl;
@@ -624,9 +618,7 @@ public:
             }
             
             
-            //if (AiPieces[k].first == 0 || AiPieces[k].first == 5) {  // piece on top/bottom edge
-            //    total += 7;
-            //}
+          
             if (AiPieces[k].second == 0 || AiPieces[k].second == 5){
                 total += 9;
             }

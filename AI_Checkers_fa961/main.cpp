@@ -21,16 +21,6 @@ using namespace std;
 
 
 
-struct BoardSquare{
-
-    char color;         // D for Dark, L for Light
-    bool pieceOnSquare = false; // True for piece is on current square
-    char player;        // N for None, P for Player, A for AI
-};
-
-//class Player;
-//class AIplayer;
-
 
 
 
@@ -86,12 +76,12 @@ int main(int argc, const char * argv[]) {
                 updatedGame.printBoard();
             }
             
-            //a1.printALLMoves();
+      
             
             while (currentGame) {
                 
                 p1.updateBoard(updatedGame);
-                updatedGame = p1.choosePiece();
+                updatedGame = p1.choosePiece();             
                 updatedGame.printBoard();
                 a1.updateBoard(updatedGame);
                 
@@ -143,11 +133,6 @@ int main(int argc, const char * argv[]) {
 
 
     
-    
-    //cout<< "Player Locations: ";
-    //newGame.printPlayerLocations();
-    //cout<< "Opponent Locations: ";
-    //newGame.printAILocations();
-    
+
 
 }

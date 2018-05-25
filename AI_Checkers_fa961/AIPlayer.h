@@ -50,21 +50,18 @@ int minofVector (vector<int> findMin){
         
         if (findMin[i] < min) {
             min = findMin[i];
-            //cout << min << " -_- Min " ;
+            
         }
         
     }
-    //cout << endl;
+    
     return min;
 }
 
 
 class AIplayer{
 private:
-    //map
-    //key is current_pos, value is list of possible moves for that piece
-    //possibleMoves
-    map<pair<int, int>, vector<pair<int, int> > > possibleMoves;
+    map<pair<int, int>, vector<pair<int, int> > > possibleMoves;            //key is current_pos, value is list of possible moves for that piece
     map<pair<int, int>, vector<pair<int, int> > > possiblejumpMoves;
     int piecesLeft;
     bool first = false;
@@ -92,16 +89,7 @@ public:
         
         Checkers* gameCopy = new Checkers(*game); // make a copy to manipulate
         
-        //gameCopy.updateAiLocations();
-        //gameCopy.updatePlayerLocations();
-        //updatePossibleMoves();
-        //updatePossibleJumps();  // still need to do these
-        
-        
-        //cout << "Board at depth: " << depth << '\n' << endl;
-        //game.printBoard();
-        
-        //gameCopy.minMaxDecision();
+
         
         
         if (myturn) { // max player's turn
@@ -114,23 +102,22 @@ public:
             
             int numofJumps = a1->getnumofJumps();
             int numberofMoves = a1->getnumofMoves();
-            //cout << numberofMoves << " moves possible!" << endl;
             
-            if((numofJumps == 0 && numberofMoves == 0) || (depth == 0)){ // reached a point where a1 cant move
+            
+            if((numofJumps == 0 && numberofMoves == 0) || (depth == 0)){ // reached a point where a1 cant move or depth limit is reached
                 // check if game has ended
-                if (gameCopy->getNumofPiecesAi() > 0 && gameCopy ->getNumofPiecesPlayer() == 0) {
+                if (gameCopy->getNumofPiecesAi() > 0 && gameCopy->getNumofPiecesPlayer() == 0) {
                     return 999; //win
                 }
-                //gameCopy.printBoard();
-                //cout << gameCopy.evaluateAi() << endl;
-                if (difficulty == 'E' || difficulty == 'e') {
+                
+                if (difficulty == 'E' || difficulty == 'e') {   // easy
                     return gameCopy->evaluateAiEasy();
                 }
-                else if (difficulty == 'M' || difficulty == 'm'){
+                else if (difficulty == 'M' || difficulty == 'm'){       // medium
                     return gameCopy->evaluateAiMedium();
                 }
                 else{
-                    return gameCopy->evaluateAiHard();
+                    return gameCopy->evaluateAiHard();                  // hard
                 }
                 
             }
@@ -142,8 +129,8 @@ public:
                         for (int k = 0; k < mapIterator1->second.size(); k++) {
                             Checkers* nextState = new Checkers(*gameCopy);
                             nextState->makeJumpAI(mapIterator1->first, mapIterator1->second[k]);
-                            //nextState->printBoard();
-                            int value =minmaxTree(nextState, !myturn, depth-1, min, v, difficulty);
+                            
+                            int value = minmaxTree(nextState, !myturn, depth-1, min, v, difficulty);
                             
                             if (value < v) {
                                 v = value;
@@ -153,7 +140,7 @@ public:
                                 
                                 return min;
                             }
-                            //valuestoCompare.push_back(minmaxTree(nextState, !myturn,depth-1));
+                            
                             
                             
                         }
@@ -171,10 +158,9 @@ public:
                         for (int k = 0; k < mapIterator2->second.size(); k++) {
                             Checkers* nextState = new Checkers(*gameCopy);
                             nextState->makeMoveAI(mapIterator2->first, mapIterator2->second[k]);
-                            //nextState->printBoard();
+                            
                             int value =minmaxTree(nextState, !myturn, depth-1, min, v, difficulty);
-                            //cout << "Score: " << value << '\n' << endl;
-                            //nextState->printBoard();
+                          
                             if (value < v) {
                                 v = value;
                                 numberofTimesPrunedMax++;
@@ -184,7 +170,6 @@ public:
                                 return min;
                             }
 
-                            //valuestoCompare.push_back(minmaxTree(nextState, !myturn,depth-1));
                             
                         }
                         
@@ -195,10 +180,7 @@ public:
                 
 
             }
-            //cout<< "MAX HERE: " << maxofVector(valuestoCompare) <<endl;
-            // after getting all values on this level return max;
-            //return maxofVector(valuestoCompare);
-            //cout << "SOME V VAL: " << v << endl;
+     
             return v;
             
 
@@ -240,7 +222,7 @@ public:
                         for (int k = 0; k < mapIterator1->second.size(); k++) {
                             Checkers* nextState = new Checkers(*gameCopy);
                             nextState->makeJumpPlayer(mapIterator1->first, mapIterator1->second[k]);
-                            //nextState->printBoard();
+                            
                             int value = minmaxTree(nextState, !myturn, depth-1, v, max, difficulty);
                             if (value > v) {
                                 v = value;
@@ -278,7 +260,7 @@ public:
                                 
                                 return max;
                             }
-                            //valuestoCompare.push_back(minmaxTree(nextState, !myturn,depth-1));
+                            
                         }
                         
                         
@@ -287,8 +269,7 @@ public:
                 
                 
             }
-            //cout<< "MIN HERE: " << minofVector(valuestoCompare) <<endl;
-            //return minofVector(valuestoCompare);
+            
             return v;
             
         }

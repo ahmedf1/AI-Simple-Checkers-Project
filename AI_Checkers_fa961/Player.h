@@ -22,10 +22,8 @@ using namespace std;
 
 class Player{
 private:
-    //map
-    //key is current_pos, value is list of possible moves for that piece
-    //possibleMoves
-    map<pair<int, int>, vector<pair<int, int> > > possibleMoves;
+    
+    map<pair<int, int>, vector<pair<int, int> > > possibleMoves;//key is current_pos, value is list of possible moves for that piece
     map<pair<int, int>, vector<pair<int, int> > > possiblejumpMoves;
     int piecesLeft;
     Checkers Game;
@@ -57,8 +55,7 @@ public:
             return Game;
         }
         
-        //Game.printPlayerLocations();
-        //printALLMoves();
+  
         
         printPlayerLocations();
         
